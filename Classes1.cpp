@@ -55,6 +55,7 @@ void getPublicationInfo(Publication& x)
 		cout << "ERROR. Invalid type. Please try again: ";
 		cin >> integerType;
 	}
+	integerType--;//ALMOST FORGOT
 	tempType = static_cast<PublicationType>(integerType);//Convert to publicationtype 
 	cout << "Stock?: ";
 	cin >> tempStock;
