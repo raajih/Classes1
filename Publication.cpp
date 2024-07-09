@@ -25,6 +25,7 @@ void Publication::displayInfo()
 		<< "\nYear: " << year
 		<< "\nType: " << type
 		<< "\nStock: " << stock;
+		
 }
 
 void Publication::checkOut()
@@ -32,13 +33,17 @@ void Publication::checkOut()
 	if (stock < 1)
 		cout << "Sorry we are out of stock\n";
 	else
+	{
 		stock--;
+		cout << "Publication is checked out!\n";
+	}
 
 }
 
 void Publication::checkIn()
 {
 	stock++;
+	cout << "Publication checked in!";
 }
 
 string Publication::getTitle() const

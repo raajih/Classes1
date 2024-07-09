@@ -10,19 +10,75 @@ void getPublicationInfo(Publication&);
 void getPublications(Publication[], int&);
 void showPublications(Publication[], int);
 void showTitles(Publication[], int);
+int findPublication(Publication[], int, string);
+int getMenuChoice();
 
 int main()
 {
 	const int MAX_SIZE = 20;
-	//TEST
 	Publication library[MAX_SIZE];
-	int numBooks;
+	int numBooks, userChoice;
+	string temp;//Holds title user is looking for
+	int searchIndex;//Holds the index of title we're looking for or -1 if not found
 
-	
+	//Create array of Publications
 	getPublications(library, numBooks);
-	showTitles(library, numBooks);
-	
 
+	do {
+		userChoice = getMenuChoice();
+		cin.ignore();
+		switch (userChoice)
+		{
+		case 1://Show all info
+			showPublications(library, numBooks);
+			break;
+		case 2://Show all titles
+			showTitles(library, numBooks);
+			break;
+		case 3://Find a publication
+			cout << "What is the title of the publication (case sensitive): ";
+			getline(cin, temp);
+			searchIndex = findPublication(library, numBooks, temp);
+			if (searchIndex == -1)
+			{
+				cout << "Title not found";
+				break;
+			}
+			else
+			{
+				library[searchIndex].displayInfo();//Output information about publication
+			}
+			break;
+		case 4://Check out
+			cout << "What is the title of the publication you want to check out (case sensitive): ";
+			getline(cin, temp);
+			searchIndex = findPublication(library, numBooks, temp);
+			if (searchIndex == -1)
+			{
+				cout << "Title not found";
+				break;
+			}
+			else
+			{
+				library[searchIndex].checkOut();
+			}
+			break;
+		case 5:
+			cout << "What is the title of the publication you want to check in (case sensitive): ";
+			getline(cin, temp);
+			searchIndex = findPublication(library, numBooks, temp);
+			if (searchIndex == -1)
+			{
+				cout << "Title not found";
+				break;
+			}
+			else
+			library[searchIndex].checkIn();
+			break;
+
+		}
+	} while (userChoice != 6);
+	
 	return 0;
 }
 
@@ -128,6 +184,7 @@ void showPublications(Publication library[], int size)
 	{
 		library[i].displayInfo();
 	}
+	cout << "\n";
 }
 
 //Show titles
@@ -137,4 +194,38 @@ void showTitles(Publication library[], int size)
 	{
 		cout << library[i].getTitle() << "\n";
 	}
+}
+
+int findPublication(Publication library[], int size, string titleWanted)
+{
+	
+	for (int i = 0; i < size; i++)
+	{
+	
+		if (library[i].getTitle() == titleWanted)
+			return i;
+		
+	}
+
+	return -1;
+}
+
+int getMenuChoice()
+{
+	int choice;
+	cout << "\n1. Display all publications\n"
+		<< "2. Display publication titles\n"
+		<< "3. Find a publication\n"
+		<< "4. Check out\n"
+		<< "5. Check in\n"
+		<< "6. Exit\n";
+	
+	cin >> choice;
+	while (choice < 1 || choice > 6)
+	{
+		cout << "ERROR INVALID CHOICE. Please try again: ";
+		cin >> choice;
+	}
+	
+	return choice;
 }
